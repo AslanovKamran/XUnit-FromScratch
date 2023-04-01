@@ -5,7 +5,9 @@ namespace CalculationsTest.Tests
 	public class CalculatorTests
 	{
 		public Calculator calc { get; init; } = new ();
+		
 		[Fact]
+		[Trait("Category","Fibo")]
 		public void Add_GivenInts_ReturnsInt()
 		{
 			
@@ -14,6 +16,8 @@ namespace CalculationsTest.Tests
 		}
 
 		[Fact]
+		[Trait("Category", "Fibo")]
+
 		public void Add_GivenDoubles_ReturnsDouble()
 		{
 			var actual = calc.AddDouble(1.23, 3.55);
@@ -21,11 +25,19 @@ namespace CalculationsTest.Tests
 		}
 
 		[Fact]
+		[Trait("Category", "Fibo")]
 		public void FiboNumbers_ShouldNotContainZero()
 		{
 			Assert.DoesNotContain(0, calc.FiboNumbers);
 		}
 
-		
+		[Fact]
+		[Trait("Category", "Fibo")]
+		public void FiboNumbers_ShoulContainThirteen()
+		{
+			Assert.Contains(13, calc.FiboNumbers);
+		}
+
+
 	}
 }
