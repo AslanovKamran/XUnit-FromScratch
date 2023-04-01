@@ -1,6 +1,6 @@
 ﻿using UnitTesting.Models;
 
-namespace CalculationsTest.Tests
+namespace NameTests.Tests
 {
 	public class NameTests
 	{

@@ -1,15 +1,21 @@
-﻿using UnitTesting.Models;
-using Xunit;
+﻿using CalculationsTest.Fixtures;
+using UnitTesting.Models;
 
-namespace CalculationsTest.Tests
+namespace CustomerTests.Tests
 {
+	[Collection("Customer")]
 	public class CustomerTests
 	{
+		private readonly CustomerFixture _customerFixture;
+		public CustomerTests(CustomerFixture customerFixture)
+		{
+			_customerFixture = customerFixture;
+		}
 		[Fact]
 		public void GetOrdersCountByName_NotNull()
 		{
-			var customer = new Customer();
-			var exceptionDetails = Assert.Throws<ArgumentException>(() => customer.GetOrdersCountByName(null!));
+			
+			var exceptionDetails = Assert.Throws<ArgumentException>(() => _customerFixture.Customer.GetOrdersCountByName(null!));
 			Assert.Equal("Name can't be null or empty", exceptionDetails.Message);
 		}
 
@@ -17,8 +23,8 @@ namespace CalculationsTest.Tests
 		public void LoyalCustomerForOrdersG100()
 		{
 			const int LoyalCustomerDiscount = 10;
-			var customer = CustomerFactory.CreateCustomer(101);
-			var actual = Assert.IsType<LoyalCustomer>(customer);
+
+			var actual = Assert.IsType<LoyalCustomer>(CustomerFactory.CreateCustomer(101));
 			Assert.Equal(LoyalCustomerDiscount, actual.Discount);
 		}
 

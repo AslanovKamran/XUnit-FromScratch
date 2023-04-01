@@ -1,6 +1,4 @@
-﻿
-
-using UnitTesting.Models;
+﻿using UnitTesting.Models;
 
 namespace CalculationsTest.Fixtures
 {

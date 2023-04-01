@@ -11,7 +11,10 @@ namespace UnitTesting.Models
 			if (String.IsNullOrEmpty(name)) throw new ArgumentException("Name can't be null or empty");
 			return 100;
 		}
+
+		public string GetFullName(string f, string l) => $"{f} {l}";
 	}
+
 
 	public class LoyalCustomer : Customer
 	{
@@ -20,9 +23,9 @@ namespace UnitTesting.Models
 
 	public static class CustomerFactory
 	{
-		public static Customer CreateCustomer(int orderCount) 
+		public static Customer CreateCustomer(int orderCount)
 		{
-			return orderCount <= 100 ? new Customer() : new LoyalCustomer(); 
+			return orderCount <= 100 ? new Customer() : new LoyalCustomer();
 		}
 	}
 }
