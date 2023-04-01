@@ -1,17 +1,41 @@
+using CalculationsTest.Fixtures;
+using System.Collections.Immutable;
 using UnitTesting.Models;
+using Xunit.Abstractions;
 
 namespace CalculationsTest.Tests
 {
-	public class CalculatorTests
+	public class CalculatorTests : IClassFixture<CalculatorFixture>, IDisposable
 	{
-		public Calculator calc { get; init; } = new ();
-		
+		private readonly CalculatorFixture _calculatorFixture;
+		private readonly ITestOutputHelper _testOutputHelper;
+		private readonly MemoryStream _memoryStream;
+		public CalculatorTests(CalculatorFixture calculatorFixture, ITestOutputHelper testOutputHelper)
+		{
+			_calculatorFixture = calculatorFixture;
+			_testOutputHelper = testOutputHelper;
+			_memoryStream = new MemoryStream();
+
+			_testOutputHelper.WriteLine("Constructor");
+		}
+
+		[Fact]
+		[Trait("Category", "Fibo")]
+		public void CheckFiboNumbers() 
+		{
+
+			List<int> expected  = new (){ 1, 1, 2, 3, 5, 8, 13 };
+			Assert.Equal(expected, _calculatorFixture.Calc.FiboNumbers);
+
+		}
+
+
 		[Fact]
 		[Trait("Category","Fibo")]
 		public void Add_GivenInts_ReturnsInt()
 		{
-			
-			var actual = calc.Add(2, 1);
+			_testOutputHelper.WriteLine($"Add_GivenInts_ReturnsInt is being executed at {DateTime.Now.Hour} : {DateTime.Now.Minute}");
+			var actual = _calculatorFixture.Calc.Add(2, 1);
 			Assert.Equal(3, actual);
 		}
 
@@ -20,7 +44,7 @@ namespace CalculationsTest.Tests
 
 		public void Add_GivenDoubles_ReturnsDouble()
 		{
-			var actual = calc.AddDouble(1.23, 3.55);
+			var actual = _calculatorFixture.Calc.AddDouble(1.23, 3.55);
 			Assert.Equal(4.78, actual, 1);
 		}
 
@@ -28,16 +52,20 @@ namespace CalculationsTest.Tests
 		[Trait("Category", "Fibo")]
 		public void FiboNumbers_ShouldNotContainZero()
 		{
-			Assert.DoesNotContain(0, calc.FiboNumbers);
+			Assert.DoesNotContain(0, _calculatorFixture.Calc.FiboNumbers);
 		}
 
 		[Fact]
 		[Trait("Category", "Fibo")]
 		public void FiboNumbers_ShoulContainThirteen()
 		{
-			Assert.Contains(13, calc.FiboNumbers);
+			Assert.Contains(13, _calculatorFixture.Calc.FiboNumbers);
 		}
 
-
+		//XUnit will take care of disposable objects itself
+		public void Dispose()
+		{
+			_memoryStream.Dispose();
+		}
 	}
 }
