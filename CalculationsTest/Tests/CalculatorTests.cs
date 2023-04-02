@@ -1,3 +1,4 @@
+using CalculationsTest.DataShare;
 using CalculationsTest.Fixtures;
 using System.Collections.Immutable;
 using UnitTesting.Models;
@@ -21,17 +22,17 @@ namespace CalculationsTest.Tests
 
 		[Fact]
 		[Trait("Category", "Fibo")]
-		public void CheckFiboNumbers() 
+		public void CheckFiboNumbers()
 		{
 
-			List<int> expected  = new (){ 1, 1, 2, 3, 5, 8, 13 };
+			List<int> expected = new() { 1, 1, 2, 3, 5, 8, 13 };
 			Assert.Equal(expected, _calculatorFixture.Calc.FiboNumbers);
 
 		}
 
 
 		[Fact]
-		[Trait("Category","Fibo")]
+		[Trait("Category", "Fibo")]
 		public void Add_GivenInts_ReturnsInt()
 		{
 			_testOutputHelper.WriteLine($"Add_GivenInts_ReturnsInt is being executed at {DateTime.Now.Hour} : {DateTime.Now.Minute}");
@@ -60,6 +61,16 @@ namespace CalculationsTest.Tests
 		public void FiboNumbers_ShoulContainThirteen()
 		{
 			Assert.Contains(13, _calculatorFixture.Calc.FiboNumbers);
+		}
+
+		[Theory]//Written once executed n times
+		[MemberData(nameof(TestDataShare.IsOddOrEvenData), MemberType = typeof(TestDataShare))]
+		public void IsOdd_TestOddAndEven(int value, bool expected)
+		{
+			_testOutputHelper.WriteLine("Value to test: " + value);
+			var result = _calculatorFixture.Calc.IsOdd(value);
+			_testOutputHelper.WriteLine("Expected output: " + expected);
+			Assert.Equal(expected, result);
 		}
 
 		//XUnit will take care of disposable objects itself
